@@ -3,28 +3,113 @@ session_start();
 if ($_SERVER['REQUEST_METHOD']==='POST') {
   if ($_POST['username']==='admin' && $_POST['password']==='admin') {
     $_SESSION['admin']=true; header("Location: dashboard.php"); exit();
-  } else { echo "Invalid login"; }
+  } else { $error = "Invalid credentials. Please try again."; }
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Admin Login - Internship Portal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - InternHub</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <style>
+    :root { --primary: #6366f1; --primary-dark: #4f46e5; --secondary: #0ea5e9; }
+    * { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+    
+    .login-container { display: flex; max-width: 900px; width: 100%; background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.25); }
+    
+    .login-left { flex: 1; background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%); padding: 3rem; display: flex; flex-direction: column; justify-content: center; color: #fff; position: relative; overflow: hidden; }
+    .login-left::before { content: ''; position: absolute; width: 300px; height: 300px; background: rgba(255,255,255,0.1); border-radius: 50%; top: -100px; right: -100px; }
+    .login-left::after { content: ''; position: absolute; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%; bottom: -50px; left: -50px; }
+    .login-left h2 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; position: relative; z-index: 1; }
+    .login-left p { opacity: 0.9; font-size: 1rem; position: relative; z-index: 1; }
+    .login-features { margin-top: 2rem; position: relative; z-index: 1; }
+    .login-features li { display: flex; align-items: center; margin-bottom: 1rem; font-size: 0.95rem; }
+    .login-features li i { background: rgba(255,255,255,0.2); padding: 0.5rem; border-radius: 8px; margin-right: 1rem; }
+    
+    .login-right { flex: 1; padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .login-right h3 { font-size: 1.75rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem; }
+    .login-right .subtitle { color: #64748b; margin-bottom: 2rem; }
+    
+    .form-floating { margin-bottom: 1rem; }
+    .form-floating input { border: 2px solid #e2e8f0; border-radius: 10px; height: 56px; }
+    .form-floating input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99,102,241,0.15); }
+    .form-floating label { color: #64748b; }
+    
+    .btn-login { background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%); border: none; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 600; width: 100%; color: #fff; transition: all 0.3s ease; }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99,102,241,0.3); color: #fff; }
+    
+    .divider { display: flex; align-items: center; margin: 1.5rem 0; color: #94a3b8; font-size: 0.85rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #e2e8f0; }
+    .divider span { padding: 0 1rem; }
+    
+    .back-link { text-align: center; margin-top: 1.5rem; }
+    .back-link a { color: var(--primary); text-decoration: none; font-weight: 500; }
+    .back-link a:hover { text-decoration: underline; }
+    
+    @media (max-width: 768px) {
+      .login-left { display: none; }
+      .login-container { max-width: 400px; }
+    }
+  </style>
 </head>
-<body class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-4">
-      <h2 class="mb-4">Admin Login</h2>
+<body>
+  <div class="login-container">
+    <!-- Left Panel -->
+    <div class="login-left">
+      <h2><i class="bi bi-mortarboard-fill me-2"></i>InternHub</h2>
+      <p>Welcome back, Admin! Manage your internship portal with ease.</p>
+      <ul class="login-features list-unstyled">
+        <li><i class="bi bi-check2-circle"></i> Manage Applications</li>
+        <li><i class="bi bi-check2-circle"></i> Issue Certificates</li>
+        <li><i class="bi bi-check2-circle"></i> Track Progress</li>
+        <li><i class="bi bi-check2-circle"></i> View Analytics</li>
+      </ul>
+    </div>
+    
+    <!-- Right Panel - Login Form -->
+    <div class="login-right">
+      <h3>Admin Login</h3>
+      <p class="subtitle">Enter your credentials to access the dashboard</p>
+      
+      <?php if (isset($error)): ?>
+        <div class="alert alert-danger d-flex align-items-center py-2" role="alert">
+          <i class="bi bi-exclamation-circle me-2"></i>
+          <?= $error ?>
+        </div>
+      <?php endif; ?>
+      
       <form method="post">
-        <div class="mb-3">
-          <input class="form-control" name="username" placeholder="Username" required>
+        <div class="form-floating">
+          <input type="text" class="form-control" id="username" name="username" placeholder="Username" required>
+          <label for="username"><i class="bi bi-person me-2"></i>Username</label>
         </div>
-        <div class="mb-3">
-          <input class="form-control" name="password" type="password" placeholder="Password" required>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          <label for="password"><i class="bi bi-lock me-2"></i>Password</label>
         </div>
-        <button class="btn btn-primary w-100">Login</button>
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="remember">
+            <label class="form-check-label text-muted" for="remember">Remember me</label>
+          </div>
+          <a href="#" class="text-decoration-none" style="color: var(--primary);">Forgot password?</a>
+        </div>
+        
+        <button type="submit" class="btn btn-login">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+        </button>
       </form>
+      
+      <div class="divider"><span>or</span></div>
+      
+      <div class="back-link">
+        <a href="../index.php"><i class="bi bi-arrow-left me-1"></i>Back to Internship Portal</a>
+      </div>
     </div>
   </div>
 </body>
