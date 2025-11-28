@@ -29,28 +29,54 @@ foreach ($icons as $key => $val) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
     :root { --primary: #6366f1; --primary-dark: #4f46e5; --success: #10b981; --dark: #1e293b; }
-    * { font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { background: #f8fafc; min-height: 100vh; }
+    * { font-family: 'Segoe UI', system-ui, sans-serif; box-sizing: border-box; }
+    body { background: #f8fafc; min-height: 100vh; overflow-x: hidden; }
     
-    .navbar { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1rem 0; }
-    .navbar-brand { font-weight: 700; font-size: 1.5rem; color: var(--primary) !important; }
+    .navbar { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 0.75rem 0; }
+    .navbar-brand { font-weight: 700; font-size: 1.25rem; color: var(--primary) !important; }
     
-    .apply-header { background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%); padding: 3rem 0; color: #fff; }
+    .apply-header { background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%); padding: 2rem 0; color: #fff; }
     
-    .apply-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-top: -3rem; position: relative; z-index: 10; }
+    .apply-card { background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); margin-top: -2rem; position: relative; z-index: 10; }
     
-    .internship-icon { width: 64px; height: 64px; background: linear-gradient(135deg, var(--primary), #8b5cf6); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.75rem; }
+    .internship-icon { width: 56px; height: 56px; min-width: 56px; background: linear-gradient(135deg, var(--primary), #8b5cf6); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; }
     
-    .tag { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; margin-right: 0.5rem; }
+    .internship-title { font-size: 1.25rem; font-weight: 700; word-wrap: break-word; overflow-wrap: break-word; line-height: 1.4; }
+    
+    .tag { display: inline-block; padding: 0.35rem 0.65rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; margin-right: 0.4rem; margin-bottom: 0.4rem; white-space: nowrap; }
     .tag-duration { background: #dbeafe; color: #1d4ed8; }
     .tag-type { background: #dcfce7; color: #166534; }
     
-    .form-label { font-weight: 500; color: #475569; }
-    .form-control { border: 2px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem; }
+    .form-label { font-weight: 500; color: #475569; font-size: 0.9rem; }
+    .form-control { border: 2px solid #e2e8f0; border-radius: 10px; padding: 0.65rem 0.875rem; }
     .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
     
-    .btn-apply { background: var(--success); border: none; border-radius: 10px; padding: 0.875rem 2rem; font-weight: 600; color: #fff; }
+    .btn-apply { background: var(--success); border: none; border-radius: 10px; padding: 0.75rem 1.5rem; font-weight: 600; color: #fff; }
     .btn-apply:hover { background: #059669; color: #fff; }
+    
+    .about-box { background: #f8fafc; border-radius: 10px; padding: 1rem; }
+    .about-box p { font-size: 0.9rem; line-height: 1.6; word-wrap: break-word; overflow-wrap: break-word; }
+    
+    /* Responsive improvements */
+    @media (min-width: 768px) {
+      .navbar { padding: 1rem 0; }
+      .navbar-brand { font-size: 1.5rem; }
+      .apply-header { padding: 3rem 0; }
+      .apply-card { margin-top: -3rem; }
+      .internship-icon { width: 64px; height: 64px; min-width: 64px; font-size: 1.75rem; }
+      .internship-title { font-size: 1.5rem; }
+    }
+    
+    @media (max-width: 576px) {
+      .container { padding-left: 1rem; padding-right: 1rem; }
+      .apply-card { padding: 1.25rem !important; }
+      .d-flex.mb-4 { flex-direction: column; align-items: flex-start !important; }
+      .internship-icon { margin-bottom: 1rem; }
+      .internship-icon + div { width: 100%; }
+      .d-flex.gap-3.mt-4 { flex-direction: column; }
+      .d-flex.gap-3.mt-4 .btn { width: 100%; }
+      .about-box { padding: 0.875rem; }
+    }
   </style>
 </head>
 <body>
@@ -95,7 +121,7 @@ foreach ($icons as $key => $val) {
             </div>
           </div>
           
-          <div class="bg-light rounded-3 p-3 mb-4">
+          <div class="about-box mb-4">
             <h6 class="fw-semibold mb-2"><i class="bi bi-info-circle me-2"></i>About this Internship</h6>
             <p class="text-muted mb-0"><?= htmlspecialchars($internship['description']) ?></p>
           </div>

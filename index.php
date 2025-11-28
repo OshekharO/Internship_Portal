@@ -12,51 +12,95 @@ $result = $conn->query("SELECT * FROM internships");
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
     :root { --primary: #6366f1; --primary-dark: #4f46e5; --secondary: #0ea5e9; --success: #10b981; --warning: #f59e0b; --dark: #1e293b; }
-    * { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { background: #f8fafc; }
+    * { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; box-sizing: border-box; }
+    body { background: #f8fafc; overflow-x: hidden; }
     
     /* Navbar */
-    .navbar { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1rem 0; }
-    .navbar-brand { font-weight: 700; font-size: 1.5rem; color: var(--primary) !important; }
-    .nav-link { color: var(--dark) !important; font-weight: 500; margin: 0 0.5rem; }
+    .navbar { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 0.75rem 0; }
+    .navbar-brand { font-weight: 700; font-size: 1.25rem; color: var(--primary) !important; }
+    .nav-link { color: var(--dark) !important; font-weight: 500; margin: 0 0.25rem; padding: 0.5rem 0.75rem !important; }
     .nav-link:hover { color: var(--primary) !important; }
-    .btn-login { background: var(--primary); color: #fff !important; border-radius: 8px; padding: 0.5rem 1.25rem; }
+    .btn-login { background: var(--primary); color: #fff !important; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.9rem; white-space: nowrap; }
     .btn-login:hover { background: var(--primary-dark); }
+    .navbar-toggler { border: none; padding: 0.5rem; }
+    .navbar-toggler:focus { box-shadow: none; }
     
     /* Hero */
-    .hero { background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 50%, var(--secondary) 100%); padding: 4rem 0; color: #fff; }
-    .hero h1 { font-size: 2.75rem; font-weight: 800; }
-    .hero p { font-size: 1.1rem; opacity: 0.9; }
-    .search-box { background: #fff; border-radius: 12px; padding: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,0.15); margin-top: 2rem; }
-    .search-box input { border: 2px solid #e2e8f0; border-radius: 8px; padding: 0.75rem 1rem; }
+    .hero { background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 50%, var(--secondary) 100%); padding: 2.5rem 0 3rem; color: #fff; }
+    .hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.3; }
+    .hero p { font-size: 1rem; opacity: 0.9; }
+    .search-box { background: #fff; border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.15); margin-top: 1.5rem; }
+    .search-box input { border: 2px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.75rem; font-size: 0.9rem; }
     .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+    .search-box .input-group { flex-wrap: nowrap; }
+    .search-box .btn-apply { white-space: nowrap; padding: 0.65rem 1rem; font-size: 0.9rem; }
     
     /* Stats */
-    .stats { margin-top: -2rem; position: relative; z-index: 10; }
-    .stat-item { background: #fff; border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-    .stat-number { font-size: 2rem; font-weight: 700; color: var(--primary); }
-    .stat-label { color: #64748b; font-size: 0.9rem; }
+    .stats { margin-top: -1.5rem; position: relative; z-index: 10; }
+    .stat-item { background: #fff; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+    .stat-number { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+    .stat-label { color: #64748b; font-size: 0.8rem; }
     
     /* Internship Cards */
-    .section-title { font-size: 1.75rem; font-weight: 700; color: var(--dark); }
-    .internship-card { background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: all 0.3s ease; height: 100%; }
-    .internship-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); border-color: var(--primary); }
-    .company-logo { width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.5rem; font-weight: 700; }
-    .internship-title { font-size: 1.1rem; font-weight: 600; color: var(--dark); margin: 0; }
-    .company-name { color: #64748b; font-size: 0.9rem; }
-    .tag { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; margin-right: 0.5rem; margin-bottom: 0.5rem; }
+    .section-title { font-size: 1.5rem; font-weight: 700; color: var(--dark); }
+    .internship-card { background: #fff; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; }
+    .internship-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); border-color: var(--primary); }
+    .company-logo { width: 48px; height: 48px; min-width: 48px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; font-weight: 700; }
+    .internship-title { font-size: 1rem; font-weight: 600; color: var(--dark); margin: 0; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
+    .company-name { color: #64748b; font-size: 0.85rem; }
+    .internship-desc { font-size: 0.85rem; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis; max-height: 4.5em; }
+    .tag { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; margin-right: 0.4rem; margin-bottom: 0.4rem; white-space: nowrap; }
     .tag-duration { background: #dbeafe; color: #1d4ed8; }
     .tag-type { background: #dcfce7; color: #166534; }
     .tag-mode { background: #fef3c7; color: #92400e; }
-    .internship-meta { display: flex; gap: 1rem; color: #64748b; font-size: 0.85rem; margin: 1rem 0; }
+    .internship-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; color: #64748b; font-size: 0.8rem; margin: 0.75rem 0; }
     .internship-meta i { color: var(--primary); }
-    .btn-apply { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0.6rem 1.5rem; font-weight: 600; width: 100%; transition: all 0.2s; }
+    .internship-meta span { white-space: nowrap; }
+    .btn-apply { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0.6rem 1.25rem; font-weight: 600; width: 100%; transition: all 0.2s; margin-top: auto; }
     .btn-apply:hover { background: var(--primary-dark); color: #fff; transform: scale(1.02); }
     
     /* Footer */
-    .footer { background: var(--dark); color: #fff; padding: 3rem 0; margin-top: 4rem; }
+    .footer { background: var(--dark); color: #fff; padding: 2rem 0 1.5rem; margin-top: 3rem; }
     .footer a { color: #94a3b8; text-decoration: none; }
     .footer a:hover { color: #fff; }
+    .footer h5, .footer h6 { font-size: 1rem; }
+    .footer p, .footer li { font-size: 0.9rem; }
+    
+    /* Responsive improvements */
+    @media (min-width: 768px) {
+      .navbar { padding: 1rem 0; }
+      .navbar-brand { font-size: 1.5rem; }
+      .hero { padding: 4rem 0; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero p { font-size: 1.1rem; }
+      .search-box { padding: 1.5rem; }
+      .stats { margin-top: -2rem; }
+      .stat-number { font-size: 2rem; }
+      .stat-label { font-size: 0.9rem; }
+      .stat-item { padding: 1.5rem; }
+      .section-title { font-size: 1.75rem; }
+      .internship-card { padding: 1.5rem; }
+      .company-logo { width: 56px; height: 56px; min-width: 56px; font-size: 1.5rem; }
+      .internship-title { font-size: 1.1rem; }
+      .footer { padding: 3rem 0; margin-top: 4rem; }
+    }
+    
+    @media (max-width: 576px) {
+      .container { padding-left: 1rem; padding-right: 1rem; }
+      .hero h1 br { display: none; }
+      .search-box .input-group { flex-direction: column; gap: 0.5rem; }
+      .search-box .input-group-text { display: none; }
+      .search-box .btn-apply { border-radius: 8px !important; width: 100%; }
+      .d-flex.justify-content-between.align-items-center.mb-4 { flex-direction: column; align-items: flex-start !important; gap: 1rem; }
+      .footer .row > div { text-align: center; }
+      .footer .col-md-4.mb-4 { margin-bottom: 1.5rem !important; }
+    }
+    
+    @media (max-width: 767px) {
+      .navbar-collapse { background: #fff; padding: 1rem; margin-top: 0.5rem; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+      .navbar-nav { text-align: center; }
+      .btn-login { display: block; margin: 0.5rem auto 0; width: fit-content; }
+    }
   </style>
 </head>
 <body>
@@ -164,7 +208,7 @@ $result = $conn->query("SELECT * FROM internships");
                 </div>
               </div>
               
-              <p class="text-muted small mb-3"><?= htmlspecialchars($row['description']) ?></p>
+              <p class="text-muted internship-desc mb-3"><?= htmlspecialchars($row['description']) ?></p>
               
               <div class="mb-3">
                 <span class="tag tag-duration"><i class="bi bi-clock me-1"></i><?= htmlspecialchars($row['duration']) ?></span>
