@@ -130,9 +130,12 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
       .page-header > div:last-child { width: 100%; text-align: left; }
       .stat-card { padding: 1rem; }
       .stat-card .stat-value { font-size: 1.25rem; }
-      .table-responsive { margin: 0 -1rem; }
-      .table thead th, .table tbody td { padding: 0.75rem 0.5rem; }
-      .btn-action { padding: 0.3rem 0.5rem; font-size: 0.75rem; }
+      .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .table { min-width: 600px; }
+      .table thead th, .table tbody td { padding: 0.75rem 0.5rem; white-space: nowrap; }
+      .applicant-cell { min-width: 120px; }
+      .applicant-name { max-width: 100px; }
+      .btn-action { padding: 0.3rem 0.5rem; font-size: 0.75rem; white-space: nowrap; }
       .btn-action i { margin-right: 0 !important; }
       .btn-action span { display: none; }
     }
