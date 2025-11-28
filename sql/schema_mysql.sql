@@ -13,7 +13,6 @@ CREATE TABLE applications (
   internship_id INT,
   name VARCHAR(100),
   email VARCHAR(100),
-  resume VARCHAR(255) NULL,
   status ENUM('pending','selected','rejected') DEFAULT 'pending',
   FOREIGN KEY (internship_id) REFERENCES internships(id)
 );
