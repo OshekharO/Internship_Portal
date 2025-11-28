@@ -29,11 +29,7 @@ $result = $conn->query("SELECT * FROM internships");
     .hero { background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 50%, var(--secondary) 100%); padding: 2.5rem 0 3rem; color: #fff; }
     .hero h1 { font-size: 1.75rem; font-weight: 800; line-height: 1.3; }
     .hero p { font-size: 1rem; opacity: 0.9; }
-    .search-box { background: #fff; border-radius: 12px; padding: 1rem; box-shadow: 0 10px 40px rgba(0,0,0,0.15); margin-top: 1.5rem; }
-    .search-box input { border: 2px solid #e2e8f0; border-radius: 8px; padding: 0.65rem 0.75rem; font-size: 0.9rem; }
-    .search-box input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
-    .search-box .input-group { flex-wrap: nowrap; }
-    .search-box .btn-apply { white-space: nowrap; padding: 0.65rem 1rem; font-size: 0.9rem; }
+
     
     /* Stats */
     .stats { margin-top: -1.5rem; position: relative; z-index: 10; }
@@ -75,7 +71,6 @@ $result = $conn->query("SELECT * FROM internships");
       .hero { padding: 4rem 0; }
       .hero h1 { font-size: 2.5rem; }
       .hero p { font-size: 1.1rem; }
-      .search-box { padding: 1.5rem; }
       .stats { margin-top: -2rem; }
       .stat-number { font-size: 2rem; }
       .stat-label { font-size: 0.9rem; }
@@ -90,9 +85,6 @@ $result = $conn->query("SELECT * FROM internships");
     @media (max-width: 576px) {
       .container { padding-left: 1rem; padding-right: 1rem; }
       .hero h1 br { display: none; }
-      .search-box .input-group { flex-direction: column; gap: 0.5rem; }
-      .search-box .input-group-text { display: none; }
-      .search-box .btn-apply { border-radius: 8px !important; width: 100%; }
       .d-flex.justify-content-between.align-items-center.mb-4 { flex-direction: column; align-items: flex-start !important; gap: 1rem; }
       .footer .row > div { text-align: center; }
       .footer .col-md-4.mb-4 { margin-bottom: 1.5rem !important; }
@@ -128,13 +120,6 @@ $result = $conn->query("SELECT * FROM internships");
     <div class="container text-center">
       <h1>Launch Your Career with<br>Amazing Internships</h1>
       <p class="mt-3">Discover opportunities from top companies and gain real-world experience</p>
-      <div class="search-box mx-auto" style="max-width: 600px;">
-        <div class="input-group">
-          <span class="input-group-text bg-white border-2"><i class="bi bi-search text-muted"></i></span>
-          <input type="text" class="form-control" placeholder="Search internships by title, skills, or company..." id="searchInput">
-          <button class="btn btn-apply" style="border-radius: 0 8px 8px 0;">Search</button>
-        </div>
-      </div>
     </div>
   </section>
 

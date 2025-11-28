@@ -11,6 +11,7 @@ A simplified internship portal with internship listings, applications, admin das
 - Certificate verification page
 - Works with both **MySQL** and **PostgreSQL**
 - Ready-to-deploy structure
+- Mobile responsive design
 
 ---
 
@@ -24,7 +25,10 @@ internship-portal/
 │── admin/
 │   ├── login.php           # Admin login
 │   ├── dashboard.php       # View & manage applications
+│   ├── manage_internships.php # Manage internship listings
 │   ├── issue_certificate.php # Issue certificate to selected application
+│── includes/
+│   ├── db.php              # Database connection configuration
 │── uploads/                # Uploaded resumes (create writable folder)
 │── sql/
 │   ├── schema_mysql.sql    # Database schema & seed data for MySQL
