@@ -24,11 +24,10 @@ if (!$internship) {
   <p class="text-muted"><?= htmlspecialchars($internship['description']) ?></p>
   <p><strong>Duration:</strong> <?= htmlspecialchars($internship['duration']) ?></p>
   <hr>
-  <form action="submit_application.php" method="post" enctype="multipart/form-data">
+  <form action="submit_application.php" method="post">
     <input type="hidden" name="internship_id" value="<?= (int)$internship['id'] ?>">
     <div class="mb-3"><input class="form-control" name="name" placeholder="Your Name" required></div>
     <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Your Email" required></div>
-    <div class="mb-3"><input type="file" class="form-control" name="resume" accept=".pdf,.doc,.docx"></div>
     <button class="btn btn-success">Submit Application</button>
     <a href="index.php" class="btn btn-secondary">Cancel</a>
   </form>

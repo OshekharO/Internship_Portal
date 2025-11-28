@@ -24,7 +24,7 @@ $apps = $conn->query("SELECT a.*, i.title FROM applications a JOIN internships i
   </div>
   <table class="table table-bordered table-striped">
     <thead class="table-dark">
-      <tr><th>Name</th><th>Email</th><th>Internship</th><th>Resume</th><th>Status</th><th>Action</th></tr>
+      <tr><th>Name</th><th>Email</th><th>Internship</th><th>Status</th><th>Action</th></tr>
     </thead>
     <tbody>
       <?php while($a=$apps->fetch()): ?>
@@ -32,7 +32,6 @@ $apps = $conn->query("SELECT a.*, i.title FROM applications a JOIN internships i
         <td><?= htmlspecialchars($a['name']) ?></td>
         <td><?= htmlspecialchars($a['email']) ?></td>
         <td><?= htmlspecialchars($a['title']) ?></td>
-        <td><?= $a['resume'] ? '<a href="../' . htmlspecialchars($a['resume']) . '" target="_blank">View</a>' : 'N/A' ?></td>
         <td><?= htmlspecialchars($a['status']) ?></td>
         <td><a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-sm btn-success">Issue Certificate</a></td>
       </tr>
