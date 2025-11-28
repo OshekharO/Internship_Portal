@@ -43,20 +43,22 @@ $result = $conn->query("SELECT * FROM internships");
     
     /* Internship Cards */
     .section-title { font-size: 1.5rem; font-weight: 700; color: var(--dark); }
-    .internship-card { background: #fff; border-radius: 16px; padding: 1.25rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; }
+    .internship-card { background: #fff; border-radius: 16px; padding: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; transition: all 0.3s ease; height: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
     .internship-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); border-color: var(--primary); }
-    .company-logo { width: 48px; height: 48px; min-width: 48px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; font-weight: 700; }
+    .company-logo { width: 48px; height: 48px; min-width: 48px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; font-weight: 700; flex-shrink: 0; }
     .internship-title { font-size: 1rem; font-weight: 600; color: var(--dark); margin: 0; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
-    .company-name { color: #64748b; font-size: 0.85rem; }
-    .internship-desc { font-size: 0.85rem; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis; max-height: 4.5em; }
-    .tag { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; margin-right: 0.4rem; margin-bottom: 0.4rem; white-space: nowrap; }
+    .company-name { color: #64748b; font-size: 0.85rem; margin-top: 0.25rem; }
+    .company-name i { vertical-align: middle; }
+    .internship-desc { font-size: 0.85rem; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis; max-height: 4.5em; margin-bottom: 0.5rem; }
+    .tag { display: inline-flex; align-items: center; padding: 0.35rem 0.7rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; margin-right: 0.5rem; margin-bottom: 0.5rem; white-space: nowrap; gap: 0.25rem; }
+    .tag i { font-size: 0.7rem; }
     .tag-duration { background: #dbeafe; color: #1d4ed8; }
     .tag-type { background: #dcfce7; color: #166534; }
     .tag-mode { background: #fef3c7; color: #92400e; }
-    .internship-meta { display: flex; flex-wrap: wrap; gap: 0.75rem; color: #64748b; font-size: 0.8rem; margin: 0.75rem 0; }
-    .internship-meta i { color: var(--primary); }
-    .internship-meta span { white-space: nowrap; }
-    .btn-apply { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0.6rem 1.25rem; font-weight: 600; width: 100%; transition: all 0.2s; margin-top: auto; }
+    .internship-meta { display: flex; flex-wrap: wrap; gap: 1rem; color: #64748b; font-size: 0.8rem; margin: 0.5rem 0; }
+    .internship-meta i { color: var(--primary); margin-right: 0.25rem; vertical-align: middle; }
+    .internship-meta span { white-space: nowrap; display: inline-flex; align-items: center; }
+    .btn-apply { background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0.6rem 1.25rem; font-weight: 600; width: 100%; transition: all 0.2s; margin-top: auto; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
     .btn-apply:hover { background: var(--primary-dark); color: #fff; transform: scale(1.02); }
     
     /* Footer */
@@ -128,8 +130,8 @@ $result = $conn->query("SELECT * FROM internships");
       <p class="mt-3">Discover opportunities from top companies and gain real-world experience</p>
       <div class="search-box mx-auto" style="max-width: 600px;">
         <div class="input-group">
-          <span class="input-group-text bg-white border-0"><i class="bi bi-search text-muted"></i></span>
-          <input type="text" class="form-control border-0" placeholder="Search internships by title, skills, or company...">
+          <span class="input-group-text bg-white border-2"><i class="bi bi-search text-muted"></i></span>
+          <input type="text" class="form-control" placeholder="Search internships by title, skills, or company..." id="searchInput">
           <button class="btn btn-apply" style="border-radius: 0 8px 8px 0;">Search</button>
         </div>
       </div>
@@ -198,31 +200,31 @@ $result = $conn->query("SELECT * FROM internships");
           ?>
           <div class="col-lg-4 col-md-6">
             <div class="internship-card">
-              <div class="d-flex align-items-start mb-3">
+              <div class="d-flex align-items-start">
                 <div class="company-logo me-3">
                   <i class="bi <?= $icon ?>"></i>
                 </div>
-                <div>
+                <div class="flex-grow-1">
                   <h5 class="internship-title"><?= htmlspecialchars($row['title']) ?></h5>
-                  <p class="company-name mb-0"><i class="bi bi-building me-1"></i>InternHub Company</p>
+                  <p class="company-name mb-0"><i class="bi bi-building"></i> InternHub Company</p>
                 </div>
               </div>
               
-              <p class="text-muted internship-desc mb-3"><?= htmlspecialchars($row['description']) ?></p>
+              <p class="text-muted internship-desc"><?= htmlspecialchars($row['description']) ?></p>
               
-              <div class="mb-3">
-                <span class="tag tag-duration"><i class="bi bi-clock me-1"></i><?= htmlspecialchars($row['duration']) ?></span>
-                <span class="tag tag-type"><i class="bi bi-laptop me-1"></i>Remote</span>
+              <div class="tags-container">
+                <span class="tag tag-duration"><i class="bi bi-clock"></i><?= htmlspecialchars($row['duration']) ?></span>
+                <span class="tag tag-type"><i class="bi bi-laptop"></i>Remote</span>
                 <span class="tag tag-mode"><i class="bi bi-currency-rupee"></i>Unpaid</span>
               </div>
               
               <div class="internship-meta">
-                <span><i class="bi bi-geo-alt me-1"></i>Work from Home</span>
-                <span><i class="bi bi-calendar me-1"></i>Immediate</span>
+                <span><i class="bi bi-geo-alt"></i>Work from Home</span>
+                <span><i class="bi bi-calendar"></i>Immediate</span>
               </div>
               
               <a href="apply.php?id=<?= (int)$row['id'] ?>" class="btn btn-apply">
-                <i class="bi bi-send me-1"></i>Apply Now
+                <i class="bi bi-send"></i>Apply Now
               </a>
             </div>
           </div>
@@ -237,7 +239,7 @@ $result = $conn->query("SELECT * FROM internships");
       <div class="row">
         <div class="col-md-4 mb-4">
           <h5 class="fw-bold mb-3"><i class="bi bi-mortarboard-fill me-2"></i>InternHub</h5>
-          <p class="text-muted">Your gateway to amazing internship opportunities. Build your career with real-world experience.</p>
+          <p class="text-white opacity-75">Your gateway to amazing internship opportunities. Build your career with real-world experience.</p>
         </div>
         <div class="col-md-2 mb-4">
           <h6 class="fw-bold mb-3">Quick Links</h6>
@@ -249,9 +251,9 @@ $result = $conn->query("SELECT * FROM internships");
         </div>
         <div class="col-md-3 mb-4">
           <h6 class="fw-bold mb-3">Contact</h6>
-          <ul class="list-unstyled text-muted">
-            <li class="mb-2"><i class="bi bi-envelope me-2"></i>support@internhub.com</li>
-            <li class="mb-2"><i class="bi bi-telephone me-2"></i>+1 234 567 890</li>
+          <ul class="list-unstyled">
+            <li class="mb-2 text-white opacity-75"><i class="bi bi-envelope me-2"></i>support@internhub.com</li>
+            <li class="mb-2 text-white opacity-75"><i class="bi bi-telephone me-2"></i>+1 234 567 890</li>
           </ul>
         </div>
         <div class="col-md-3 mb-4">
