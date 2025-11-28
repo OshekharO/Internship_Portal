@@ -171,7 +171,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
       .row { flex-direction: column; }
       .col-lg-4, .col-lg-8 { width: 100%; }
       .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .table { min-width: 500px; }
+      .table { min-width: 550px; }
       .table thead th, .table tbody td { padding: 0.75rem 0.5rem; white-space: nowrap; }
       .desc-cell { max-width: 120px; }
     }
