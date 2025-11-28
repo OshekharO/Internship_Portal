@@ -124,7 +124,7 @@ $result = $conn->query("SELECT * FROM internships");
   </section>
 
   <!-- Stats Section -->
-  <section class="stats">
+  <section class="stats mt-3">
     <div class="container">
       <div class="row g-4 justify-content-center">
         <div class="col-md-3 col-6">
@@ -250,7 +250,7 @@ $result = $conn->query("SELECT * FROM internships");
         </div>
       </div>
       <hr class="my-4 opacity-25">
-      <p class="text-center text-muted mb-0">&copy; 2024 InternHub. All rights reserved.</p>
+      <p class="text-center text-white mb-0">&copy; 2024 InternHub. All rights reserved.</p>
     </div>
   </footer>
 
