@@ -205,7 +205,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
   <!-- Main Content -->
   <main class="main-content">
     <!-- Page Header -->
-    <div class="page-header">
+    <div class="page-header mt-2">
       <div>
         <h1><i class="bi bi-briefcase me-2"></i>Manage Internships</h1>
         <p class="text-muted mb-0">Add, edit, or remove internship listings</p>
