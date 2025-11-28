@@ -174,7 +174,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
   <!-- Main Content -->
   <main class="main-content">
     <!-- Page Header -->
-    <div class="page-header">
+    <div class="page-header mt-2">
       <div>
         <h1>Dashboard Overview</h1>
         <p class="text-muted mb-0">Welcome back, Admin! Here's what's happening.</p>
