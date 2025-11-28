@@ -14,6 +14,7 @@ $appCount = $conn->query("SELECT COUNT(*) as count FROM applications")->fetch()[
 $selectedCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='selected'")->fetch()['count'];
 $pendingCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='pending'")->fetch()['count'];
 $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()['count'];
+$internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fetch()['count'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,6 +103,7 @@ $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()
     </div>
     <ul class="sidebar-nav">
       <li><a href="dashboard.php" class="active"><i class="bi bi-grid-1x2"></i><span>Dashboard</span></a></li>
+      <li><a href="manage_internships.php"><i class="bi bi-briefcase"></i><span>Manage Internships</span></a></li>
       <li><a href="../index.php" target="_blank"><i class="bi bi-eye"></i><span>View Portal</span></a></li>
     </ul>
     <div class="sidebar-footer">
@@ -124,18 +126,29 @@ $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()
 
     <!-- Stats -->
     <div class="row g-4 mb-4">
-      <div class="col-xl-3 col-md-6">
+      <div class="col-xl col-md-6">
+        <div class="stat-card">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <p class="stat-label mb-1">Active Internships</p>
+              <h3 class="stat-value mb-0"><?= $internshipCount ?></h3>
+            </div>
+            <div class="stat-icon primary"><i class="bi bi-briefcase"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl col-md-6">
         <div class="stat-card">
           <div class="d-flex justify-content-between align-items-start">
             <div>
               <p class="stat-label mb-1">Total Applications</p>
               <h3 class="stat-value mb-0"><?= $appCount ?></h3>
             </div>
-            <div class="stat-icon primary"><i class="bi bi-file-earmark-text"></i></div>
+            <div class="stat-icon success"><i class="bi bi-file-earmark-text"></i></div>
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-md-6">
+      <div class="col-xl col-md-6">
         <div class="stat-card">
           <div class="d-flex justify-content-between align-items-start">
             <div>
@@ -146,7 +159,7 @@ $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-md-6">
+      <div class="col-xl col-md-6">
         <div class="stat-card">
           <div class="d-flex justify-content-between align-items-start">
             <div>
@@ -157,7 +170,7 @@ $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()
           </div>
         </div>
       </div>
-      <div class="col-xl-3 col-md-6">
+      <div class="col-xl col-md-6">
         <div class="stat-card">
           <div class="d-flex justify-content-between align-items-start">
             <div>
