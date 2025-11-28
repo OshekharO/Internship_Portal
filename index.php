@@ -48,7 +48,7 @@ $result = $conn->query("SELECT * FROM internships");
     .company-logo { width: 48px; height: 48px; min-width: 48px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 1.25rem; font-weight: 700; }
     .internship-title { font-size: 1rem; font-weight: 600; color: var(--dark); margin: 0; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; }
     .company-name { color: #64748b; font-size: 0.85rem; }
-    .internship-desc { font-size: 0.85rem; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis; }
+    .internship-desc { font-size: 0.85rem; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; text-overflow: ellipsis; max-height: 4.5em; }
     .tag { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 500; margin-right: 0.4rem; margin-bottom: 0.4rem; white-space: nowrap; }
     .tag-duration { background: #dbeafe; color: #1d4ed8; }
     .tag-type { background: #dcfce7; color: #166534; }

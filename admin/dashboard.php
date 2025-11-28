@@ -299,8 +299,10 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('open');
-      document.querySelector('.sidebar-overlay').classList.toggle('open');
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.querySelector('.sidebar-overlay');
+      if (sidebar) sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('open');
     }
   </script>
 </body>
