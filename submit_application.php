@@ -32,15 +32,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir($uploadDir, 0755, true);
         }
         
-        // Validate file type
+        // Validate file extension
+        $allowedExtensions = ['pdf', 'doc', 'docx'];
+        $fileExtension = strtolower(pathinfo($_FILES["resume"]["name"], PATHINFO_EXTENSION));
+        
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            die("❌ Only PDF, DOC, and DOCX files are allowed.");
+        }
+        
+        // Additional MIME type check
         $allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
         $fileType = mime_content_type($_FILES["resume"]["tmp_name"]);
         
         if (!in_array($fileType, $allowedTypes)) {
-            die("❌ Only PDF, DOC, and DOCX files are allowed.");
+            die("❌ Invalid file type detected.");
         }
         
-        $filename = time() . "_" . basename($_FILES["resume"]["name"]);
+        // Limit file size to 5MB
+        if ($_FILES["resume"]["size"] > 5 * 1024 * 1024) {
+            die("❌ File size must be less than 5MB.");
+        }
+        
+        $filename = time() . "_" . preg_replace("/[^a-zA-Z0-9\.\-\_]/", "", basename($_FILES["resume"]["name"]));
         $targetFile = $uploadDir . $filename;
 
         if (move_uploaded_file($_FILES["resume"]["tmp_name"], $targetFile)) {

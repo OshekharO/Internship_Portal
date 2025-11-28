@@ -34,7 +34,7 @@ $apps = $conn->query("SELECT a.*, i.title FROM applications a JOIN internships i
         <td><?= htmlspecialchars($a['title']) ?></td>
         <td><?= $a['resume'] ? '<a href="../' . htmlspecialchars($a['resume']) . '" target="_blank">View</a>' : 'N/A' ?></td>
         <td><?= htmlspecialchars($a['status']) ?></td>
-        <td><a href="issue_certificate.php?id=<?= $a['id'] ?>" class="btn btn-sm btn-success">Issue Certificate</a></td>
+        <td><a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-sm btn-success">Issue Certificate</a></td>
       </tr>
       <?php endwhile; ?>
     </tbody>

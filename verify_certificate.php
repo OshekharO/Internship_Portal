@@ -31,8 +31,9 @@ if (isset($_GET['code']) && !empty(trim($_GET['code']))) {
     <h1>Certificate Verification</h1>
     <form method="get" class="row justify-content-center mb-4">
       <div class="col-md-4">
-        <input type="text" class="form-control" name="code" placeholder="Enter Certificate Code" 
-               value="<?= isset($_GET['code']) ? htmlspecialchars($_GET['code']) : '' ?>" required>
+        <input type="text" class="form-control" name="code" placeholder="Enter Certificate Code (e.g., CERT-xxxxx)" 
+               value="<?= isset($_GET['code']) ? htmlspecialchars($_GET['code']) : '' ?>" 
+               pattern="^CERT-[a-zA-Z0-9]{8,}$" maxlength="50" required>
       </div>
       <div class="col-auto">
         <button class="btn btn-primary">Verify</button>

@@ -17,7 +17,7 @@ A simplified internship portal with internship listings, applications, admin das
 ## 📂 Project Structure
 ```
 internship-portal/
-│── index.html              # Homepage (list internships)
+│── index.php               # Homepage (list internships)
 │── apply.php               # Application form
 │── submit_application.php  # Handles application form submissions
 │── verify_certificate.php  # Certificate verification
@@ -50,29 +50,26 @@ psql -U postgres -d internship_portal -f sql/schema_postgres.sql
 ---
 
 ### 2️⃣ Configure Database Connection
-Update `config.php`:
-```php
-<?php
-// For MySQL
-$dsn = "mysql:host=localhost;dbname=internship_portal;charset=utf8";
-$user = "root";
-$password = "your_mysql_password";
+The database configuration is in `includes/db.php`. You can configure it using environment variables:
 
-// For PostgreSQL
-// $dsn = "pgsql:host=localhost;port=5432;dbname=internship_portal;";
-// $user = "postgres";
-// $password = "your_pg_password";
-
-try {
-    $pdo = new PDO($dsn, $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    ]);
-} catch (PDOException $e) {
-    die("Database Connection Failed: " . $e->getMessage());
-}
-?>
+**For MySQL:**
+```bash
+export MYSQL_HOST=localhost
+export MYSQL_DATABASE=internship_portal
+export MYSQL_USER=root
+export MYSQL_PASSWORD=your_mysql_password
 ```
+
+**For PostgreSQL:**
+```bash
+export USE_POSTGRES=true
+export PG_HOST=localhost
+export PG_DATABASE=internship_portal
+export PG_USER=postgres
+export PG_PASSWORD=your_pg_password
+```
+
+Alternatively, you can modify `includes/db.php` directly with your credentials.
 
 ---
 
