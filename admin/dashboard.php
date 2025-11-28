@@ -167,7 +167,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
       <li><a href="../index.php" target="_blank"><i class="bi bi-eye"></i><span>View Portal</span></a></li>
     </ul>
     <div class="sidebar-footer">
-      <a href="?logout=1" class="btn"><i class="bi bi-box-arrow-left me-2"></i><span>Logout</span></a>
+      <a href="?logout=1" class="btn"><i class="bi bi-box-arrow-left me-2"></i><span> Logout</span></a>
     </div>
   </aside>
 
