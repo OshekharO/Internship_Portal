@@ -84,66 +84,109 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
     :root { --primary: #6366f1; --primary-dark: #4f46e5; --sidebar: #1e1b4b; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; }
-    * { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-    body { background: #f1f5f9; }
+    * { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; box-sizing: border-box; }
+    body { background: #f1f5f9; overflow-x: hidden; }
     
     /* Sidebar */
-    .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 260px; background: linear-gradient(180deg, var(--sidebar) 0%, #312e81 100%); color: #fff; padding: 1.5rem; z-index: 1000; }
+    .sidebar { position: fixed; left: 0; top: 0; bottom: 0; width: 260px; background: linear-gradient(180deg, var(--sidebar) 0%, #312e81 100%); color: #fff; padding: 1.5rem; z-index: 1000; transition: all 0.3s ease; }
     .sidebar-brand { font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; display: flex; align-items: center; }
     .sidebar-brand i { margin-right: 0.75rem; font-size: 1.75rem; }
     .sidebar-nav { list-style: none; padding: 0; margin: 0; }
     .sidebar-nav li { margin-bottom: 0.5rem; }
     .sidebar-nav a { display: flex; align-items: center; padding: 0.75rem 1rem; color: rgba(255,255,255,0.7); text-decoration: none; border-radius: 10px; transition: all 0.2s; }
     .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(255,255,255,0.1); color: #fff; }
-    .sidebar-nav a i { margin-right: 0.75rem; font-size: 1.1rem; }
+    .sidebar-nav a i { margin-right: 0.75rem; font-size: 1.1rem; min-width: 1.5rem; }
     .sidebar-footer { position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; }
     .sidebar-footer .btn { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
     .sidebar-footer .btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
     
+    /* Mobile menu toggle */
+    .mobile-toggle { display: none; position: fixed; top: 1rem; left: 1rem; z-index: 1001; background: var(--primary); color: #fff; border: none; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 1.25rem; cursor: pointer; }
+    .sidebar-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; }
+    
     /* Main Content */
-    .main-content { margin-left: 260px; padding: 2rem; }
+    .main-content { margin-left: 260px; padding: 2rem; min-height: 100vh; transition: all 0.3s ease; }
     
     /* Header */
-    .page-header { background: #fff; padding: 1.5rem 2rem; border-radius: 16px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: between; align-items: center; }
-    .page-header h1 { font-size: 1.5rem; font-weight: 700; color: #1e293b; margin: 0; }
+    .page-header { background: #fff; padding: 1.25rem 1.5rem; border-radius: 16px; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; }
+    .page-header h1 { font-size: 1.25rem; font-weight: 700; color: #1e293b; margin: 0; }
+    .page-header p { margin-bottom: 0; }
     
     /* Cards */
-    .form-card, .table-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 2rem; }
-    .card-header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-    .card-header h5 { margin: 0; font-weight: 600; color: #1e293b; }
-    .card-body { padding: 1.5rem; }
+    .form-card, .table-card { background: #fff; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden; margin-bottom: 1.5rem; }
+    .card-header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 1rem 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.5rem; }
+    .card-header h5 { margin: 0; font-weight: 600; color: #1e293b; font-size: 1rem; }
+    .card-body { padding: 1.25rem; }
     
     /* Table */
     .table { margin: 0; }
-    .table thead th { background: #f8fafc; color: #64748b; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 1rem 1.5rem; border: none; }
-    .table tbody td { padding: 1rem 1.5rem; vertical-align: middle; border-color: #f1f5f9; }
+    .table thead th { background: #f8fafc; color: #64748b; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; padding: 0.875rem 1rem; border: none; white-space: nowrap; }
+    .table tbody td { padding: 0.875rem 1rem; vertical-align: middle; border-color: #f1f5f9; font-size: 0.9rem; }
     .table tbody tr:hover { background: #f8fafc; }
     
     /* Form Controls */
-    .form-label { font-weight: 500; color: #475569; }
-    .form-control { border: 2px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem; }
+    .form-label { font-weight: 500; color: #475569; font-size: 0.9rem; }
+    .form-control { border: 2px solid #e2e8f0; border-radius: 10px; padding: 0.65rem 0.875rem; }
     .form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
     
     /* Buttons */
-    .btn-action { padding: 0.4rem 0.75rem; font-size: 0.85rem; border-radius: 8px; }
+    .btn-action { padding: 0.35rem 0.65rem; font-size: 0.85rem; border-radius: 8px; }
+    
+    /* Description cell */
+    .desc-cell { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     
     /* Empty State */
-    .empty-state { padding: 4rem 2rem; text-align: center; color: #64748b; }
-    .empty-state i { font-size: 4rem; margin-bottom: 1rem; opacity: 0.5; }
-    .empty-state h5 { color: #1e293b; margin-bottom: 0.5rem; }
+    .empty-state { padding: 3rem 1.5rem; text-align: center; color: #64748b; }
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+    .empty-state h5 { color: #1e293b; margin-bottom: 0.5rem; font-size: 1.1rem; }
     
+    /* Tablet responsive */
     @media (max-width: 992px) {
-      .sidebar { width: 80px; padding: 1rem; }
-      .sidebar-brand span, .sidebar-nav a span { display: none; }
+      .sidebar { width: 70px; padding: 1rem 0.75rem; }
+      .sidebar-brand span, .sidebar-nav a span, .sidebar-footer span { display: none; }
+      .sidebar-brand { justify-content: center; margin-bottom: 1.5rem; }
+      .sidebar-brand i { margin-right: 0; font-size: 1.5rem; }
       .sidebar-nav a { justify-content: center; padding: 0.75rem; }
-      .sidebar-nav a i { margin: 0; font-size: 1.25rem; }
-      .main-content { margin-left: 80px; }
+      .sidebar-nav a i { margin-right: 0; font-size: 1.25rem; }
+      .sidebar-footer { left: 0.75rem; right: 0.75rem; }
+      .sidebar-footer .btn { padding: 0.5rem; }
+      .sidebar-footer .btn i { margin-right: 0 !important; }
+      .main-content { margin-left: 70px; padding: 1.5rem; }
+    }
+    
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+      .mobile-toggle { display: block; }
+      .sidebar { transform: translateX(-100%); width: 260px; padding: 1.5rem; }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-overlay.open { display: block; }
+      .sidebar-brand span, .sidebar-nav a span, .sidebar-footer span { display: inline; }
+      .sidebar-brand { justify-content: flex-start; }
+      .sidebar-brand i { margin-right: 0.75rem; }
+      .sidebar-nav a { justify-content: flex-start; }
+      .sidebar-nav a i { margin-right: 0.75rem; }
+      .main-content { margin-left: 0; padding: 4rem 1rem 1rem; }
+      .page-header { flex-direction: column; align-items: flex-start; padding: 1rem; }
+      .page-header > div:last-child { width: 100%; text-align: left; }
+      .row { flex-direction: column; }
+      .col-lg-4, .col-lg-8 { width: 100%; }
+      .table-responsive { margin: 0 -1rem; }
+      .table thead th, .table tbody td { padding: 0.75rem 0.5rem; }
+      .desc-cell { max-width: 120px; }
     }
   </style>
 </head>
 <body>
+  <!-- Mobile Toggle Button -->
+  <button class="mobile-toggle" onclick="toggleSidebar()">
+    <i class="bi bi-list"></i>
+  </button>
+  
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+  
   <!-- Sidebar -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <i class="bi bi-mortarboard-fill"></i>
       <span>InternHub</span>
@@ -252,7 +295,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                     <span class="badge bg-primary bg-opacity-10 text-primary"><?= htmlspecialchars($intern['duration']) ?></span>
                   </td>
                   <td>
-                    <small class="text-muted"><?= htmlspecialchars(substr($intern['description'], 0, 50)) ?>...</small>
+                    <small class="text-muted desc-cell d-block"><?= htmlspecialchars(substr($intern['description'], 0, 50)) ?>...</small>
                   </td>
                   <td>
                     <div class="btn-group">
@@ -283,5 +326,11 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.querySelector('.sidebar-overlay').classList.toggle('open');
+    }
+  </script>
 </body>
 </html>

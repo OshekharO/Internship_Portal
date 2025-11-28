@@ -49,20 +49,36 @@ if (isset($_GET['id'])) {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
   <style>
     :root { --primary: #6366f1; --success: #10b981; --warning: #f59e0b; --danger: #ef4444; }
-    * { font-family: 'Segoe UI', system-ui, sans-serif; }
-    body { background: #f1f5f9; min-height: 100vh; display: flex; align-items: center; }
-    .result-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; overflow: hidden; }
-    .result-header { padding: 3rem 2rem; text-align: center; }
+    * { font-family: 'Segoe UI', system-ui, sans-serif; box-sizing: border-box; }
+    body { background: #f1f5f9; min-height: 100vh; display: flex; align-items: center; padding: 1rem; overflow-x: hidden; }
+    .result-card { background: #fff; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); max-width: 500px; width: 100%; margin: 0 auto; overflow: hidden; }
+    .result-header { padding: 2rem 1.5rem; text-align: center; }
     .result-header.success { background: linear-gradient(135deg, var(--success), #059669); color: #fff; }
     .result-header.warning { background: linear-gradient(135deg, var(--warning), #d97706); color: #fff; }
     .result-header.error { background: linear-gradient(135deg, var(--danger), #dc2626); color: #fff; }
-    .result-icon { width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2.5rem; }
-    .result-body { padding: 2rem; }
-    .cert-code-box { background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 12px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
-    .cert-code { font-family: 'Courier New', monospace; font-size: 1.25rem; font-weight: 700; color: var(--primary); letter-spacing: 1px; }
-    .applicant-info { background: #f8fafc; border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem; }
-    .applicant-info .label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
-    .applicant-info .value { font-weight: 600; color: #1e293b; }
+    .result-icon { width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem; font-size: 2rem; }
+    .result-header h3 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    .result-header p { font-size: 0.9rem; }
+    .result-body { padding: 1.5rem; }
+    .cert-code-box { background: #f8fafc; border: 2px dashed #e2e8f0; border-radius: 10px; padding: 1rem; text-align: center; margin-bottom: 1.25rem; }
+    .cert-code { font-family: 'Courier New', monospace; font-size: 1rem; font-weight: 700; color: var(--primary); letter-spacing: 0.5px; word-wrap: break-word; overflow-wrap: break-word; }
+    .applicant-info { background: #f8fafc; border-radius: 10px; padding: 0.875rem; margin-bottom: 1.25rem; }
+    .applicant-info .label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.25rem; }
+    .applicant-info .value { font-weight: 600; color: #1e293b; font-size: 0.9rem; word-wrap: break-word; overflow-wrap: break-word; }
+    .d-grid .btn { font-size: 0.95rem; }
+    
+    @media (min-width: 576px) {
+      body { padding: 2rem; }
+      .result-header { padding: 3rem 2rem; }
+      .result-icon { width: 80px; height: 80px; font-size: 2.5rem; margin-bottom: 1rem; }
+      .result-header h3 { font-size: 1.5rem; margin-bottom: 0.25rem; }
+      .result-body { padding: 2rem; }
+      .cert-code-box { padding: 1.5rem; }
+      .cert-code { font-size: 1.25rem; letter-spacing: 1px; }
+      .applicant-info { padding: 1rem; }
+      .applicant-info .label { font-size: 0.75rem; }
+      .applicant-info .value { font-size: 1rem; }
+    }
   </style>
 </head>
 <body>
