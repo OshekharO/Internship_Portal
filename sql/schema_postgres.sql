@@ -13,6 +13,7 @@ CREATE TABLE applications (
   internship_id INT REFERENCES internships(id),
   name VARCHAR(100),
   email VARCHAR(100),
+  phone VARCHAR(20),
   status VARCHAR(10) DEFAULT 'pending' CHECK (status IN ('pending','selected','rejected'))
 );
 

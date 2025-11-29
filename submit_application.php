@@ -10,10 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $internship_id = (int)$_POST['internship_id'];
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
+    $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
     
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die("❌ Invalid email format.");
+    }
+    
+    // Validate phone format if provided
+    if (!empty($phone) && !preg_match('/^[0-9+\-\s]{7,20}$/', $phone)) {
+        die("❌ Invalid phone number format.");
     }
     
     // Verify internship exists and get details
@@ -24,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("❌ Invalid internship.");
     }
 
-    $stmt = $conn->prepare("INSERT INTO applications (internship_id, name, email) VALUES (?, ?, ?)");
-    $stmt->execute([$internship_id, $name, $email]);
+    $stmt = $conn->prepare("INSERT INTO applications (internship_id, name, email, phone) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$internship_id, $name, $email, $phone]);
 ?>
 <!DOCTYPE html>
 <html lang="en">

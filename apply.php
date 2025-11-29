@@ -187,6 +187,10 @@ foreach ($icons as $key => $val) {
                   <label class="form-label">Email Address <span class="text-danger">*</span></label>
                   <input class="form-control" type="email" name="email" placeholder="Enter your email" required>
                 </div>
+                <div class="col-md-6">
+                  <label class="form-label">Phone Number</label>
+                  <input class="form-control" type="tel" name="phone" placeholder="Enter your phone number" pattern="[0-9+\-\s]{7,20}">
+                </div>
               </div>
               
               <div class="d-flex gap-3 mt-4 btn-group-apply">
