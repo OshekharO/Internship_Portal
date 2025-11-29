@@ -28,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD']==='POST') {
         }
       } else {
         // Legacy plain-text password (for backward compatibility)
-        if ($admin['password'] === $password) {
+        // Use hash_equals for timing-attack resistance
+        if (hash_equals($admin['password'], $password)) {
           $_SESSION['admin'] = true;
           $_SESSION['admin_id'] = $admin['id'];
           

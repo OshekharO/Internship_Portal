@@ -17,8 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("❌ Invalid email format.");
     }
     
-    // Validate phone format if provided
-    if (!empty($phone) && !preg_match('/^[0-9+\-\s]{7,20}$/', $phone)) {
+    // Validate phone format if provided (international format or common formats)
+    if (!empty($phone) && !preg_match('/^\+?[1-9]\d{6,14}$/', preg_replace('/[\s\-\(\)]/', '', $phone))) {
         die("❌ Invalid phone number format.");
     }
     
