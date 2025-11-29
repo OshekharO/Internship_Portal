@@ -189,7 +189,8 @@ foreach ($icons as $key => $val) {
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Phone Number</label>
-                  <input class="form-control" type="tel" name="phone" placeholder="Enter your phone number" pattern="[0-9+\-\s]{7,20}">
+                  <input class="form-control" type="tel" name="phone" placeholder="Enter your mobile number (e.g., 9876543210)" pattern="(\+91|91|0)?[6-9][0-9]{9}" maxlength="13">
+                  <small class="text-muted">Indian mobile number (10 digits)</small>
                 </div>
               </div>
               

@@ -17,9 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("❌ Invalid email format.");
     }
     
-    // Validate phone format if provided (international format or common formats)
-    if (!empty($phone) && !preg_match('/^\+?[1-9]\d{6,14}$/', preg_replace('/[\s\-\(\)]/', '', $phone))) {
-        die("❌ Invalid phone number format.");
+    // Validate phone format if provided (Indian phone number: 10 digits starting with 6-9, optional +91 or 0 prefix)
+    if (!empty($phone)) {
+        $cleanPhone = preg_replace('/[\s\-\(\)]/', '', $phone);
+        // Match: +91XXXXXXXXXX, 91XXXXXXXXXX, 0XXXXXXXXXX, or XXXXXXXXXX (10 digits starting with 6-9)
+        if (!preg_match('/^(\+91|91|0)?[6-9]\d{9}$/', $cleanPhone)) {
+            die("❌ Invalid phone number. Please enter a valid Indian mobile number.");
+        }
     }
     
     // Verify internship exists and get details
