@@ -254,7 +254,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
           <thead>
             <tr>
               <th>Applicant</th>
-              <th>Email</th>
+              <th>Contact</th>
               <th>Internship</th>
               <th>Status</th>
               <th>Action</th>
@@ -272,7 +272,12 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                   <div class="applicant-name"><?= htmlspecialchars($a['name']) ?></div>
                 </div>
               </td>
-              <td class="text-muted" style="max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?= htmlspecialchars($a['email']) ?></td>
+              <td class="text-muted" style="max-width: 180px;">
+                <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?= htmlspecialchars($a['email']) ?></div>
+                <?php if (!empty($a['phone'])): ?>
+                <small class="text-muted"><i class="bi bi-telephone me-1"></i><?= htmlspecialchars($a['phone']) ?></small>
+                <?php endif; ?>
+              </td>
               <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><?= htmlspecialchars($a['title']) ?></td>
               <td>
                 <span class="badge-status <?= $a['status'] ?>">

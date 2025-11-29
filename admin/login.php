@@ -1,9 +1,53 @@
 <?php
 session_start();
+require '../includes/db.php';
+
 if ($_SERVER['REQUEST_METHOD']==='POST') {
-  if ($_POST['username']==='admin' && $_POST['password']==='admin') {
-    $_SESSION['admin']=true; header("Location: dashboard.php"); exit();
-  } else { $error = "Invalid credentials. Please try again."; }
+  $username = trim($_POST['username'] ?? '');
+  $password = $_POST['password'] ?? '';
+  
+  if (empty($username) || empty($password)) {
+    $error = "Please enter both username and password.";
+  } else {
+    // Query the database for the admin user
+    $stmt = $conn->prepare("SELECT id, username, password FROM admins WHERE username = ?");
+    $stmt->execute([$username]);
+    $admin = $stmt->fetch();
+    
+    if ($admin) {
+      // Check if password is hashed (starts with $2y$ for bcrypt)
+      if (strpos($admin['password'], '$2y$') === 0) {
+        // Password is hashed, verify with password_verify
+        if (password_verify($password, $admin['password'])) {
+          $_SESSION['admin'] = true;
+          $_SESSION['admin_id'] = $admin['id'];
+          header("Location: dashboard.php");
+          exit();
+        } else {
+          $error = "Invalid credentials. Please try again.";
+        }
+      } else {
+        // Legacy plain-text password (for backward compatibility)
+        // Use hash_equals for timing-attack resistance
+        if (hash_equals($admin['password'], $password)) {
+          $_SESSION['admin'] = true;
+          $_SESSION['admin_id'] = $admin['id'];
+          
+          // Upgrade to hashed password
+          $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+          $updateStmt = $conn->prepare("UPDATE admins SET password = ? WHERE id = ?");
+          $updateStmt->execute([$hashedPassword, $admin['id']]);
+          
+          header("Location: dashboard.php");
+          exit();
+        } else {
+          $error = "Invalid credentials. Please try again.";
+        }
+      }
+    } else {
+      $error = "Invalid credentials. Please try again.";
+    }
+  }
 }
 ?>
 <!DOCTYPE html>

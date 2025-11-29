@@ -10,10 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $internship_id = (int)$_POST['internship_id'];
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
+    $phone = isset($_POST['phone']) ? trim($_POST['phone']) : '';
     
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         die("❌ Invalid email format.");
+    }
+    
+    // Validate phone format if provided (Indian phone number: 10 digits starting with 6-9, optional +91 or 0 prefix)
+    if (!empty($phone)) {
+        $cleanPhone = preg_replace('/[\s\-\(\)]/', '', $phone);
+        // Match: +91XXXXXXXXXX, 91XXXXXXXXXX, 0XXXXXXXXXX, or XXXXXXXXXX (10 digits starting with 6-9)
+        if (!preg_match('/^(\+91|91|0)?[6-9]\d{9}$/', $cleanPhone)) {
+            die("❌ Invalid phone number. Please enter a valid Indian mobile number.");
+        }
     }
     
     // Verify internship exists and get details
@@ -24,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("❌ Invalid internship.");
     }
 
-    $stmt = $conn->prepare("INSERT INTO applications (internship_id, name, email) VALUES (?, ?, ?)");
-    $stmt->execute([$internship_id, $name, $email]);
+    $stmt = $conn->prepare("INSERT INTO applications (internship_id, name, email, phone) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$internship_id, $name, $email, $phone]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
