@@ -3,23 +3,24 @@ $usePostgres = getenv('USE_POSTGRES') === 'true' ? true : false;
 
 try {
     if ($usePostgres) {
-        // PostgreSQL - use environment variables if available
-        $pgHost = getenv('PG_HOST') ?: "ep-frosty-mode-a8frqif3-pooler.eastus2.azure.neon.tech";
+        // PostgreSQL - use environment variables for configuration
+        $pgHost = getenv('PG_HOST') ?: "localhost";
         $pgDb = getenv('PG_DATABASE') ?: "internship_portal";
-        $pgUser = getenv('PG_USER') ?: "neondb_owner";
-        $pgPass = getenv('PG_PASSWORD') ?: "npg_dbiVcFoQ4xu2";
+        $pgUser = getenv('PG_USER') ?: "postgres";
+        $pgPass = getenv('PG_PASSWORD') ?: "";
+        $pgSslMode = getenv('PG_SSLMODE') ?: "prefer";
         
         $conn = new PDO(
-            "pgsql:host=$pgHost;dbname=$pgDb;sslmode=require",
+            "pgsql:host=$pgHost;dbname=$pgDb;sslmode=$pgSslMode",
             $pgUser,
             $pgPass
         );
     } else {
-        // MySQL - use environment variables if available
-        $host = getenv('MYSQL_HOST') ?: "sql305.infinityfree.com";
-        $db   = getenv('MYSQL_DATABASE') ?: "if0_40551336_internhub";
-        $user = getenv('MYSQL_USER') ?: "if0_40551336";
-        $pass = getenv('MYSQL_PASSWORD') ?: "6203814769";
+        // MySQL - use environment variables for configuration
+        $host = getenv('MYSQL_HOST') ?: "localhost";
+        $db   = getenv('MYSQL_DATABASE') ?: "internship_portal";
+        $user = getenv('MYSQL_USER') ?: "root";
+        $pass = getenv('MYSQL_PASSWORD') ?: "";
 
         $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
     }
