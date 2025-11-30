@@ -2,6 +2,11 @@
 session_start(); require '../includes/db.php';
 if (!isset($_SESSION['admin'])) { header("Location: login.php"); exit(); }
 
+// Generate CSRF token if not exists
+if (!isset($_SESSION['csrf_token'])) {
+  $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // Handle logout
 if (isset($_GET['logout'])) {
   session_destroy();
@@ -9,11 +14,25 @@ if (isset($_GET['logout'])) {
   exit();
 }
 
-// Handle reject application
-if (isset($_GET['reject']) && is_numeric($_GET['reject'])) {
-  $rejectId = (int)$_GET['reject'];
-  $stmt = $conn->prepare("UPDATE applications SET status = 'rejected' WHERE id = ?");
-  $stmt->execute([$rejectId]);
+// Handle reject application (POST only with CSRF protection)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject']) && is_numeric($_POST['reject'])) {
+  // Verify CSRF token
+  if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    die("Invalid request");
+  }
+  
+  $rejectId = (int)$_POST['reject'];
+  
+  // Verify application exists and is in pending state
+  $checkStmt = $conn->prepare("SELECT id, status FROM applications WHERE id = ?");
+  $checkStmt->execute([$rejectId]);
+  $application = $checkStmt->fetch();
+  
+  if ($application && $application['status'] === 'pending') {
+    $stmt = $conn->prepare("UPDATE applications SET status = 'rejected' WHERE id = ? AND status = 'pending'");
+    $stmt->execute([$rejectId]);
+  }
+  
   header("Location: dashboard.php");
   exit();
 }
@@ -310,9 +329,13 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                 <a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-success btn-action">
                   <i class="bi bi-award me-1"></i><span>Issue Certificate</span>
                 </a>
-                <a href="?reject=<?= (int)$a['id'] ?>" class="btn btn-danger btn-action" onclick="return confirm('Are you sure you want to reject this application?')">
-                  <i class="bi bi-x-circle me-1"></i><span>Reject</span>
-                </a>
+                <form method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to reject this application?')">
+                  <input type="hidden" name="reject" value="<?= (int)$a['id'] ?>">
+                  <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                  <button type="submit" class="btn btn-danger btn-action">
+                    <i class="bi bi-x-circle me-1"></i><span>Reject</span>
+                  </button>
+                </form>
                 <?php elseif ($a['status'] === 'selected'): ?>
                 <a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-outline-success btn-action">
                   <i class="bi bi-eye me-1"></i><span>View Certificate</span>
