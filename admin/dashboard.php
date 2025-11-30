@@ -9,10 +9,20 @@ if (isset($_GET['logout'])) {
   exit();
 }
 
+// Handle reject application
+if (isset($_GET['reject']) && is_numeric($_GET['reject'])) {
+  $rejectId = (int)$_GET['reject'];
+  $stmt = $conn->prepare("UPDATE applications SET status = 'rejected' WHERE id = ?");
+  $stmt->execute([$rejectId]);
+  header("Location: dashboard.php");
+  exit();
+}
+
 $apps = $conn->query("SELECT a.*, i.title FROM applications a JOIN internships i ON a.internship_id=i.id ORDER BY a.id DESC");
 $appCount = $conn->query("SELECT COUNT(*) as count FROM applications")->fetch()['count'];
 $selectedCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='selected'")->fetch()['count'];
 $pendingCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='pending'")->fetch()['count'];
+$rejectedCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='rejected'")->fetch()['count'];
 $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()['count'];
 $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fetch()['count'];
 ?>
@@ -234,10 +244,21 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
         <div class="stat-card">
           <div class="d-flex justify-content-between align-items-start">
             <div>
+              <p class="stat-label mb-1">Rejected</p>
+              <h3 class="stat-value mb-0"><?= $rejectedCount ?></h3>
+            </div>
+            <div class="stat-icon danger"><i class="bi bi-x-circle"></i></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl col-md-6">
+        <div class="stat-card">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
               <p class="stat-label mb-1">Certificates Issued</p>
               <h3 class="stat-value mb-0"><?= $certCount ?></h3>
             </div>
-            <div class="stat-icon danger"><i class="bi bi-award"></i></div>
+            <div class="stat-icon primary"><i class="bi bi-award"></i></div>
           </div>
         </div>
       </div>
@@ -285,9 +306,20 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                 </span>
               </td>
               <td>
+                <?php if ($a['status'] === 'pending'): ?>
                 <a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-success btn-action">
                   <i class="bi bi-award me-1"></i><span>Issue Certificate</span>
                 </a>
+                <a href="?reject=<?= (int)$a['id'] ?>" class="btn btn-danger btn-action" onclick="return confirm('Are you sure you want to reject this application?')">
+                  <i class="bi bi-x-circle me-1"></i><span>Reject</span>
+                </a>
+                <?php elseif ($a['status'] === 'selected'): ?>
+                <a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-outline-success btn-action">
+                  <i class="bi bi-eye me-1"></i><span>View Certificate</span>
+                </a>
+                <?php else: ?>
+                <span class="text-muted small">No actions available</span>
+                <?php endif; ?>
               </td>
             </tr>
             <?php endwhile; ?>
