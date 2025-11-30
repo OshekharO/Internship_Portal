@@ -277,7 +277,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
               <p class="stat-label mb-1">Certificates Issued</p>
               <h3 class="stat-value mb-0"><?= $certCount ?></h3>
             </div>
-            <div class="stat-icon primary"><i class="bi bi-award"></i></div>
+            <div class="stat-icon danger"><i class="bi bi-award"></i></div>
           </div>
         </div>
       </div>
@@ -329,7 +329,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                 <a href="issue_certificate.php?id=<?= (int)$a['id'] ?>" class="btn btn-success btn-action">
                   <i class="bi bi-award me-1"></i><span>Issue Certificate</span>
                 </a>
-                <form method="post" style="display: inline;" onsubmit="return confirm('Are you sure you want to reject this application?')">
+                <form method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to reject this application?')">
                   <input type="hidden" name="reject" value="<?= (int)$a['id'] ?>">
                   <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                   <button type="submit" class="btn btn-danger btn-action">
