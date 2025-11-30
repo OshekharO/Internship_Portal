@@ -16,10 +16,10 @@ try {
         );
     } else {
         // MySQL - use environment variables if available
-        $host = getenv('MYSQL_HOST') ?: "sql12.freesqldatabase.com";
-        $db   = getenv('MYSQL_DATABASE') ?: "sql12809734";
-        $user = getenv('MYSQL_USER') ?: "sql12809734";
-        $pass = getenv('MYSQL_PASSWORD') ?: "VsiqQSIvsB";
+        $host = getenv('MYSQL_HOST') ?: "sql305.infinityfree.com";
+        $db   = getenv('MYSQL_DATABASE') ?: "if0_40551336_internhub";
+        $user = getenv('MYSQL_USER') ?: "if0_40551336";
+        $pass = getenv('MYSQL_PASSWORD') ?: "6203814769";
 
         $conn = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
     }
