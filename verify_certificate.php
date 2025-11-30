@@ -336,7 +336,7 @@ if (isset($_GET['code']) && !empty(trim($_GET['code']))) {
         <!-- Footer -->
         <div class="certificate-footer">
           <div class="signature-block">
-            <div class="signature-name">Program Director</div>
+            <div class="signature-name">Rizul</div>
             <div class="signature-line">Authorized Signature</div>
           </div>
           <div class="certificate-seal">
