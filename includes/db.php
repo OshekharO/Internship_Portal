@@ -15,7 +15,7 @@ try {
             $pgPass
         );
     } else {
-        // MySQL - use environment variables if available
+        // MySQL - use environment variables, if available
         $host = getenv('MYSQL_HOST') ?: "db.fr-pari1.bengt.wasmernet.com";
         $db   = getenv('MYSQL_DATABASE') ?: "sakshe";
         $user = getenv('MYSQL_USER') ?: "0c2ade337e168000bfb451218559";
