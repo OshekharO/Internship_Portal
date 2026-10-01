@@ -17,6 +17,10 @@ CREATE TABLE applications (
   status VARCHAR(10) DEFAULT 'pending' CHECK (status IN ('pending','selected','rejected'))
 );
 
+CREATE INDEX idx_applications_email ON applications(email);
+CREATE INDEX idx_applications_status ON applications(status);
+CREATE INDEX idx_applications_internship_id ON applications(internship_id);
+
 CREATE TABLE certificates (
   id SERIAL PRIMARY KEY,
   application_id INT REFERENCES applications(id),

@@ -1,8 +1,12 @@
 <?php
+$useSQLite = getenv('USE_SQLITE') === 'true' ? true : false;
 $usePostgres = getenv('USE_POSTGRES') === 'true' ? true : false;
 
 try {
-    if ($usePostgres) {
+    if ($useSQLite) {
+        $sqlitePath = getenv('SQLITE_PATH') ?: ":memory:";
+        $conn = new PDO("sqlite:" . $sqlitePath);
+    } else if ($usePostgres) {
         // PostgreSQL - use environment variables if available
         $pgHost = getenv('PG_HOST') ?: "ep-frosty-mode-a8frqif3-pooler.eastus2.azure.neon.tech";
         $pgDb = getenv('PG_DATABASE') ?: "internship_portal";
