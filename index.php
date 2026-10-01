@@ -23,7 +23,7 @@ $sql .= " ORDER BY id DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute($params);
-$result = $stmt;
+$result = $stmt->fetchAll();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -267,7 +267,7 @@ $result = $stmt;
       
       <div class="row g-4">
         <?php $hasResults = false; ?>
-        <?php while ($row = $result->fetch()): $hasResults = true; ?>
+        <?php foreach ($result as $row): $hasResults = true; ?>
           <?php
             // Generate dynamic styling based on title
             $icons = ['Web' => 'bi-code-slash', 'Data' => 'bi-graph-up', 'Digital' => 'bi-megaphone', 'Design' => 'bi-palette'];
@@ -306,7 +306,7 @@ $result = $stmt;
               </a>
             </div>
           </div>
-        <?php endwhile; ?>
+        <?php endforeach; ?>
         
         <?php if (!$hasResults): ?>
         <div class="col-12">

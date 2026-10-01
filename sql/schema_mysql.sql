@@ -15,7 +15,10 @@ CREATE TABLE applications (
   email VARCHAR(100),
   phone VARCHAR(20),
   status ENUM('pending','selected','rejected') DEFAULT 'pending',
-  FOREIGN KEY (internship_id) REFERENCES internships(id)
+  FOREIGN KEY (internship_id) REFERENCES internships(id),
+  INDEX idx_applications_email (email),
+  INDEX idx_applications_status (status),
+  INDEX idx_applications_internship_id (internship_id)
 );
 
 CREATE TABLE certificates (

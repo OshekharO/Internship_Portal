@@ -8,6 +8,14 @@ $editInternship = null;
 
 // Handle logout
 if (isset($_GET['logout'])) {
+  $_SESSION = array();
+  if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+      $params["path"], $params["domain"],
+      $params["secure"], $params["httponly"]
+    );
+  }
   session_destroy();
   header("Location: login.php");
   exit();
@@ -71,8 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Fetch all internships
-$internships = $conn->query("SELECT * FROM internships ORDER BY id DESC");
-$internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fetch()['count'];
+$internships = $conn->query("SELECT * FROM internships ORDER BY id DESC")->fetchAll();
+$internshipCount = count($internships);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -287,7 +295,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
               </thead>
               <tbody>
                 <?php $hasInternships = false; ?>
-                <?php while($intern = $internships->fetch()): $hasInternships = true; ?>
+                <?php foreach($internships as $intern): $hasInternships = true; ?>
                 <tr>
                   <td>
                     <div class="fw-semibold"><?= htmlspecialchars($intern['title']) ?></div>
@@ -310,7 +318,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                     </div>
                   </td>
                 </tr>
-                <?php endwhile; ?>
+                <?php endforeach; ?>
               </tbody>
             </table>
             <?php if (!$hasInternships): ?>

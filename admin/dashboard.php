@@ -4,6 +4,14 @@ if (!isset($_SESSION['admin'])) { header("Location: login.php"); exit(); }
 
 // Handle logout
 if (isset($_GET['logout'])) {
+  $_SESSION = array();
+  if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+      $params["path"], $params["domain"],
+      $params["secure"], $params["httponly"]
+    );
+  }
   session_destroy();
   header("Location: login.php");
   exit();
@@ -27,11 +35,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject']) && is_numer
   exit();
 }
 
-$apps = $conn->query("SELECT a.*, i.title FROM applications a JOIN internships i ON a.internship_id=i.id ORDER BY a.id DESC");
-$appCount = $conn->query("SELECT COUNT(*) as count FROM applications")->fetch()['count'];
-$selectedCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='selected'")->fetch()['count'];
-$pendingCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='pending'")->fetch()['count'];
-$rejectedCount = $conn->query("SELECT COUNT(*) as count FROM applications WHERE status='rejected'")->fetch()['count'];
+$apps = $conn->query("SELECT a.*, i.title FROM applications a JOIN internships i ON a.internship_id=i.id ORDER BY a.id DESC")->fetchAll();
+
+// Consolidated application metrics in a single query instead of 4 separate COUNT queries
+$appStats = $conn->query("SELECT
+    COUNT(*) as total,
+    SUM(CASE WHEN status='selected' THEN 1 ELSE 0 END) as selected,
+    SUM(CASE WHEN status='pending' THEN 1 ELSE 0 END) as pending,
+    SUM(CASE WHEN status='rejected' THEN 1 ELSE 0 END) as rejected
+FROM applications")->fetch();
+
+$appCount = (int)($appStats['total'] ?? 0);
+$selectedCount = (int)($appStats['selected'] ?? 0);
+$pendingCount = (int)($appStats['pending'] ?? 0);
+$rejectedCount = (int)($appStats['rejected'] ?? 0);
+
 $certCount = $conn->query("SELECT COUNT(*) as count FROM certificates")->fetch()['count'];
 $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fetch()['count'];
 ?>
@@ -292,7 +310,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
           </thead>
           <tbody>
             <?php $hasApps = false; ?>
-            <?php while($a=$apps->fetch()): $hasApps = true; ?>
+            <?php foreach($apps as $a): $hasApps = true; ?>
             <tr>
               <td>
                 <div class="applicant-cell">
@@ -334,7 +352,7 @@ $internshipCount = $conn->query("SELECT COUNT(*) as count FROM internships")->fe
                 <?php endif; ?>
               </td>
             </tr>
-            <?php endwhile; ?>
+            <?php endforeach; ?>
           </tbody>
         </table>
         <?php if (!$hasApps): ?>

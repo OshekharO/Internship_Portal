@@ -1,6 +1,11 @@
 <?php
 require 'includes/db.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: index.php");
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate required fields
     if (empty($_POST['internship_id']) || empty($_POST['name']) || empty($_POST['email'])) {
